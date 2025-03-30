@@ -1,147 +1,65 @@
-Setting up our Environment.Config 
+ ROUTES and ROUTES TESTING USING INSOMNIA 
 
-WHY DO WE SET UP ENVIRONMENT VARIABLE?
+ In an Express app, routes allow you to handle different HTTP requests for specific paths. Each route is associated with a HTTP method (GET, POST, PUT, DELETE, etc.) and can trigger specific functionality.
 
-Setting up environment configuration is an important practice in software development, especially for applications that need to run in different environments (e.g., development, production, staging). Here's why it's essential to set up an environment configuration:
+Route Basics
+URL Pattern: The path part of the URL that the user accesses in a browser or client (e.g., /, /users, /posts/:id).
 
-1. Separation of Code and Configuration:
-Why it's needed: Hardcoding configuration values (like database credentials, API keys, ports, etc.) directly in the code makes it difficult to manage changes, especially when deploying the application to different environments (development, testing, production).
+HTTP Method: The type of HTTP request (e.g., GET, POST, PUT, DELETE).
 
-What it does: By using environment variables, configuration values can be kept separate from the code, making your application more flexible and easier to manage. You can change environment-specific settings without modifying the code itself.
+Handler Function: A function that defines what happens when a request to that route is made. It receives the incoming request (req) and sends a response (res).
 
-Example: You might want to connect to a different database or use different API keys depending on whether your app is running in development or production.
+********WE CREATED ROUTES ****
+We craeted auth routes for authentication, user routes for users, and subscription routes.
 
-Benefit: Avoids leaking sensitive information and ensures that your app behaves differently depending on the environment it's running in.
+explaining auth route
+Router(): This creates a new instance of the router object. A router allows you to define HTTP request methods (like GET, POST, PUT, DELETE) for specific routes.
 
-2. Environment-Specific Configurations:
-Why it's needed: Different environments often require different settings. For example:
+authRouter: This variable holds the router instance that will be used to define authentication-related routes for signing up, signing in, and logging out.
 
-Development: You might use a local database, logging set to verbose, and a localhost URL.
+Defining the Routes:
+authRouter.post('/sign-up', handler): This defines a POST route for the /sign-up path.
 
-Production: You’ll need a secure, high-performance database, logging set to info, and environment-specific URLs.
+POST: This is the HTTP method used to submit data (e.g., when a user fills out a registration form).
 
-What it does: Setting up an environment config system allows your application to adapt to the environment it's deployed in, without needing to change the code every time you deploy it.
+Path /sign-up: This is the route that users will access when they try to sign up for your application.
 
-Example: Your app might connect to a database differently in development versus production, and an environment configuration lets you define which connection strings or API endpoints to use.
+Handler function: The callback function receives the req (request) and res (response) objects.
 
-Benefit: Makes it easy to handle different configurations for different environments without modifying the code.
+res.status(201): The status code 201 means "Created", indicating that the user has been successfully created in the system.
 
-3. Security:
-Why it's needed: Sensitive information like API keys, database passwords, and other secrets should never be hardcoded in your source code or checked into version control (e.g., Git).
-
-What it does: By using environment variables, you store sensitive data outside of your codebase in a secure manner. Only the environment (whether local, staging, or production) should have access to this information.
-
-Example: An API key or secret key for a payment provider like Stripe should not be included in your source code directly. Instead, it should be stored as an environment variable (e.g., STRIPE_API_KEY), loaded only when the app starts.
-
-Benefit: Keeps sensitive information secure and prevents accidental exposure.
-
-4. Easy Configuration Management:
-Why it's needed: Managing configuration values can be difficult as the application grows and becomes more complex. Centralizing the configuration in environment variables makes it easier to track and manage changes across different environments.
-
-What it does: With environment variables, you can centralize your app’s configuration (e.g., database URL, API keys) and change it from one place without having to dig into multiple files.
-
-Example: You can store the database connection string in an .env file, and in each environment, only the relevant .env file for that environment is used.
-
-Benefit: Simplifies the process of configuring and updating environment-specific settings without the need to modify the codebase.
-
-5. Easier Deployment and CI/CD:
-Why it's needed: In modern DevOps practices, applications are often deployed to different environments using Continuous Integration (CI) and Continuous Deployment (CD) pipelines. Each environment (e.g., staging, production) will likely need different configurations.
-
-What it does: By storing the configuration in environment variables, CI/CD pipelines can be configured to automatically load the correct settings for each environment without any manual intervention.
-
-Example: When deploying to production, your CI/CD pipeline can automatically inject the correct production configuration (e.g., API keys, database URL) from the server’s environment variables.
-
-Benefit: Streamlines deployment processes and avoids the need to manually change configurations for each environment.
-
-6. Maintainability:
-Why it's needed: Managing configurations in a structured and centralized way helps with long-term maintainability. You can change configuration values easily without having to change multiple places in your code.
-
-What it does: By using environment files (like .env), you can organize environment-specific configurations in a way that’s easy to understand and maintain.
-
-Example: If you need to change the database password or switch to a new API provider, you only need to update the .env file, and the application automatically picks up the changes.
-
-Benefit: Reduces complexity and improves long-term maintainability.
-
-7. Scalability:
-Why it's needed: As applications scale (e.g., moving from a single server to a cluster of servers or from one environment to multiple environments), managing environment variables allows the configuration to scale along with the application.
-
-What it does: With environment variables, scaling is easier because each server or container can be configured independently with the necessary environment-specific variables.
-
-Example: In a Kubernetes deployment, you can specify environment variables for each pod or service in your cluster. This ensures that each service gets the appropriate environment-specific configuration.
-
-Benefit: Makes it easier to scale applications as they grow.
+res.send(): The response will send a JSON object confirming the success of the operation. In this case, { title: 'User signed up successfully' }.
 
 
-            **********PRACTICAL ************
+************USING YOUR ROUTES IN APP.JS***
+Usage in Main App (e.g., app.js or server.js):
+To use this authRouter in your Express application, you would import it and attach it to your main application 
 
-lets install dotenv package by running this command npm i dotenv.
+STEP 2: // Use the authRouter for authentication routes
+app.use('/auth', authRouter);
 
-*********Then to set up the environment, we created an env.js file*********
+app.use('/auth', authRouter): This tells the application to use the authRouter for any requests that start with /auth. For example:
 
-LET'S EXPLAIN
-Sure! Let's break down the code you're asking about, which uses the dotenv package to manage environment variables in a more flexible way, specifically for different environments like development, production, or test.
+POST /auth/sign-up
 
-Code Breakdown: for env.js file
-import { config } from "dotenv";
-// Load environment variables based on NODE_ENV, with a fallback to 'development'
-config({ path: `.env.${process.env.NODE_ENV || 'development'}.local.js` });
+POST /auth/sign-in
 
-// Destructure and export PORT and NODE_ENV from process.env
-export const { PORT, NODE_ENV } = process.env;
-1. Importing config from dotenv:
-import { config } from "dotenv";
-This line imports the config function from the dotenv package. The config function loads environment variables from a .env file (or a custom file if specified) into process.env. This way, you can access these variables in your code (e.g., process.env.PORT, process.env.NODE_ENV).
+GET /auth/logout
 
-2. Loading Environment Variables Based on NODE_ENV:
-config({ path: `.env.${process.env.NODE_ENV || 'development'}.local.js` });
-Here, dotenv.config() is called, but with a custom configuration:
+Summary of Routes:
+POST /auth/sign-up: Used for user registration.
 
-process.env.NODE_ENV: This is a common environment variable used to determine the environment your app is running in. For example, it could be 'development', 'production', or 'test'.
+POST /auth/sign-in: Used for user login.
 
-Default Value: If process.env.NODE_ENV is not set, the fallback value 'development' will be used. This ensures that if NODE_ENV is undefined, the .env.development.local.js file is used by default.
+GET /auth/logout: Used for logging the user out.
 
-Dynamic File Path: The path option in config() dynamically loads a specific .env file based on the value of NODE_ENV.
-
-For example:
-
-If NODE_ENV = 'production', the .env.production.local.js file will be loaded.
-
-If NODE_ENV = 'development', the .env.development.local.js file will be loaded.
-
-If NODE_ENV is not set, it will default to .env.development.local.js.
+Each route corresponds to an HTTP request type (POST or GET) and a specific action (sign up, sign in, or log out). When the user hits any of these routes, they will get a response indicating the result of their action.
 
 
-3. Destructuring PORT and NODE_ENV from process.env:
-export const { PORT, NODE_ENV } = process.env;
-process.env: This object holds all the environment variables loaded by dotenv. After calling config(), the variables defined in your .env.<environment>.local.js file will be added to process.env.
+CALL TO ACTION: 
+make sure you project is running in terminal.... it should running on http://localhost:3000, append your routes to it, just like this http://localhost:3000/api/v1/subscriptions and see the content display in json format. you can do for users and auths. 
 
-Destructuring: This syntax extracts PORT and NODE_ENV from process.env and exports them. Now, you can directly import these values in other files where you need them.
+ButTo test your routes properly there are tools you can use, such as postman, insomnia, httpie, bruno. 
 
-Example Usage:
-In your .env.development.local.js file, you might have something like this:
-process.env.PORT = 3000;
-process.env.NODE_ENV = 'development';
-
-
-In your .env.production.local.js file, you could have different values:
-process.env.PORT = 8080;
-process.env.NODE_ENV = 'production';
-
-What Happens When You Run Your Application?
-Environment Variables Are Loaded: The dotenv package will read the file .env.<NODE_ENV>.local.js (or .env.development.local.js if NODE_ENV is not defined) and load the variables into process.env.
-
-Accessing the Variables: After the config() function is called, the environment variables are available in process.env. You can access them anywhere in your app, for example:
-
-
-console.log(PORT); // Will print the value of the PORT from the environment file.
-
-console.log(NODE_ENV); // Will print the value of the NODE_ENV (either 'development', 'production', etc.)
-
-Environment-Specific Configurations: You can now easily configure different settings based on the environment (like PORT, DATABASE_URL, etc.) by having different .env files for each environment.
-
-Advantages of This Approach:
-Environment-Specific Configuration: You can keep different configurations for development, production, testing, etc., without modifying your code. You just swap the .env files.
-
-Security: Sensitive data (like API keys, passwords) can be kept in these environment files, so they aren’t hard-coded in your app.
-
-Flexibility: By using process.env.NODE_ENV, you can dynamically adjust your application's behavior based on the environment.
+(you can introduce one of the tools to your student)
+we will use insomnia. i have already done for auth we will test for subscription and users routes.
