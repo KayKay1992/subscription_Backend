@@ -1,151 +1,55 @@
-SETUP OF OUR NODE.JS BACKEND
+Create Express Server
 
-for installation of express as node js frame work we use this command. npx express-generator --no-view --git ./
-Explaining the command.
+This code example uses ES6 modules to import and export the Express server, which is a bit different from the CommonJS module system that uses require and module.exports. Let's break it down step by step:
 
-The command npx express-generator --no-view --git ./ is used to scaffold a new Express.js application with specific configurations. Let's break it down:
-
-1. npx
-npx is a Node.js command-line tool that comes with npm (Node Package Manager).
-
-It allows you to run packages from the npm registry without installing them globally.
-
-It downloads the package (if not already installed), runs it, and then removes it (unless cached).
-
-2. express-generator
-express-generator is a scaffolding tool for Express.js applications.
-
-It generates a basic Express.js project structure with predefined folders (routes, public, etc.) and boilerplate code.
-
-This helps in quickly setting up a new Express app without manually creating files.
-
-3. --no-view
-By default, express-generator sets up a view engine (like Pug, EJS, or Handlebars) for server-side rendering.
-
-The --no-view flag tells the generator not to include any view/template engine.
-
-This is useful when building a REST API (where responses are JSON, not HTML) or when using a frontend framework (like React, Vue, or Angular) instead of server-side rendering.
-
-4. --git
-The --git flag initializes a Git repository in the project directory.
-
-It creates a .gitignore file with common exclusions (like node_modules).
-
-This is helpful for version control right from the start.
-
-5. ./
-The ./ specifies the current directory as the location where the Express app will be generated.
-
-If omitted, it creates a new folder with the app name (defaulting to the current directory name).
-
-Why Use This Command?
-Quick Setup: Generates a structured Express app instantly.
-
-No Views: Ideal for APIs or when using a separate frontend.
-
-Git Integration: Sets up version control automatically.
-
-Avoids Global Installation: Uses npx to run express-generator without installing it globally.
-
-Example Output Structure
-After running this command, you'll get a project structure like:
-
+1. Import Express
+javascript
 Copy
-./
-├── app.js          (Main Express app file)
-├── package.json    (Project dependencies)
-├── .gitignore      (Git exclusion rules)
-├── public/         (Static files)
-├── routes/         (API routes)
-└── bin/            (Server startup script)
+import express from 'express';
+This imports the Express library using the ES6 import syntax. This is useful when you're working with modern JavaScript (e.g., when using Babel or running the server in an environment that supports ES6 modules). You need to ensure that your environment is set up to support ES modules. If you're using Node.js version 14+ and have "type": "module" in your package.json, you can use this syntax.
 
-
-then we install nodemon package by running this command npm i --save-dev nodemon. 
-
-Explaining the command.
-
-The command npm i --save-dev nodemon installs Nodemon as a development dependency in your Node.js project. Here's a breakdown:
-
-What Does This Command Do?
-npm i
-
-Short for npm install.
-
-Installs a package from the npm registry.
-
---save-dev (or -D)
-
-Saves the package as a development dependency in package.json.
-
-Development dependencies are tools used during development (like testing frameworks, build tools, etc.) but not needed in production.
-
-nodemon
-
-A utility that automatically restarts your Node.js server when file changes are detected.
-
-Helps speed up development by avoiding manual restarts.
-
-Why Use Nodemon?
-Auto-Reloading: When you modify a file (e.g., app.js, routes/), Nodemon restarts the server automatically.
-
-Debugging-Friendly: No need to manually stop/start the server after changes.
-
-Development-Only: Since it’s not needed in production, it’s installed as a devDependency.
-
-Example Usage
-After installing, update your package.json to use Nodemon:
-
-json
+2. Create an Express App
+javascript
 Copy
-"scripts": {
-  "start": "node app.js",         // Normal production start
-  "dev": "nodemon app.js"        // Development mode (auto-reload)
-}
-Then run:
+const app = express();
+Here, the express() function is called to create an instance of an Express application. This app object will be used to define routes and handle requests.
 
-sh
+3. Define a Route
+javascript
 Copy
-npm run dev  # Starts the server with Nodemon
-Key Differences
-Command	Effect
-npm i nodemon	Installs Nodemon (but doesn’t save to package.json)
-npm i --save nodemon	Installs & saves as a production dependency (not recommended)
-npm i --save-dev nodemon	✅ Best: Installs & saves as a dev dependency
+app.get('/', (req, res) => {
+    res.send('Welcome to the subscription Tracker Api')
+})
+This sets up a GET route for the root (/) endpoint. When someone visits http://localhost:3000, the server responds with the text "Welcome to the subscription Tracker Api".
 
+req stands for the request object that holds all the information about the incoming request.
 
-*********** The next package to insatall is ESlint for error checking *******************
- we will install ESlint using this command npx eslint --init 
+res is the response object that you use to send a response back to the client.
 
- lets explain the package 
-
- The command npx eslint --init initializes ESLint in your project, a powerful JavaScript/TypeScript linter that helps enforce code quality and consistency. Here's a detailed breakdown:
-
-What Does npx eslint --init Do?
-npx
-
-Runs ESLint’s initialization script without requiring a global install.
-
-Fetches the latest version temporarily.
-
-eslint --init
-
-Starts an interactive setup wizard to configure ESLint for your project.
-
-Creates a .eslintrc.{js,json,yml} config file based on your preferences.
-
-Why Do We Need ESLint?
-Catches Errors Early
-
-Identifies syntax errors, undefined variables, and potential bugs before runtime.
-Example:
-
-js
+4. Start the Server
+javascript
 Copy
-const x = 10;
-x = 20; // ESLint flags this as an error (reassigning a `const`).
+app.listen(3000, () => {
+    console.log('Subscription Tracker Api is running on http://localhost:3000')
+})
+The listen() function makes your Express app listen on port 3000. Once the server is running, it logs the message 'Subscription Tracker Api is running on http://localhost:3000' to the console. This tells you that the server is ready to handle incoming requests on that port.
 
-others things we did 
-we cleared up our project delecting bin, public, and routes. 
-in package.json we added a type of module to change our import pattern from require.
+5. Export the App
+javascript
+Copy
+export default app;
+This line uses the ES6 export default to export the app object, which can be imported elsewhere if needed (for example, in testing files or for modularization). This is helpful if you want to use the app in other modules or have a clean separation of concerns.
 
-then we added nodemon script for dev, and production script also.
+Key Differences in ES6 Module Syntax
+import: Used to import dependencies (like express) or other modules.
+
+export default: Used to export a value, function, or object from a module so it can be used elsewhere.
+
+Full Flow Recap:
+Create the Express app with express().
+
+Define a route to respond to HTTP requests.
+
+Start the server and listen on port 3000.
+
+Export the app for use in other parts of your project (optional but useful for modularity).
