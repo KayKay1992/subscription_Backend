@@ -1,0 +1,21 @@
+AUTHENTICATION
+
+Authentication is the process of verifying the identity of a user, device, or system before granting access to resources, data, or services. It's essentially about ensuring that the entity requesting access is who or what it claims to be.
+
+Basics of what we are going to do:
+Registration: Hash the user's password and store it in a secure way (e.g., with bcrypt).
+
+Login: Validate the user's credentials and issue a JWT token if successful.
+
+Protect Routes: Use JWT middleware to ensure only authenticated users can access protected routes.
+
+Logout: Typically handled client-side by removing the token from storage.
+
+This is a basic authentication flow using JWT in an Express.js app. In a real-world scenario, you'd use a database to store users and probably add more security measures like token expiration, refresh tokens, and more.
+
+
+*******************************************************
+
+1. insstall jsonwebtoken by running npm install jsonwebtoken bcryptjs.
+2. go to .env.developement.local and create jwt_secret which isyour string of characters. and we can also define when our jwt will expire.
+3. go to env. config file to export those variable.
