@@ -1,65 +1,68 @@
- ROUTES and ROUTES TESTING USING INSOMNIA 
+DATABASE CONFIGURATION AND SETUP USING MONGODB.
 
- In an Express app, routes allow you to handle different HTTP requests for specific paths. Each route is associated with a HTTP method (GET, POST, PUT, DELETE, etc.) and can trigger specific functionality.
+MongoDB is a popular NoSQL (non-relational) database designed for scalability, performance, and flexibility. Unlike traditional relational databases, which use tables with rows and columns to store data, MongoDB stores data in flexible, JSON-like documents called BSON (Binary JSON). This allows it to handle a wide variety of data structures and makes it well-suited for modern web applications, big data, and real-time analytics.
 
-Route Basics
-URL Pattern: The path part of the URL that the user accesses in a browser or client (e.g., /, /users, /posts/:id).
+Here’s a brief overview of the key concepts in MongoDB:
 
-HTTP Method: The type of HTTP request (e.g., GET, POST, PUT, DELETE).
+.1 Documents
+Data in MongoDB is stored as documents, which are similar to JSON objects.
+Each document is a set of key-value pairs and can contain arrays, nested objects, and other complex data types
 
-Handler Function: A function that defines what happens when a request to that route is made. It receives the incoming request (req) and sends a response (res).
+how document look like
+{
+  "_id": ObjectId("5f1b2b8f1e3d2e38a9f8b9f1"),
+  "name": "John Doe",
+  "age": 30,
+  "address": {
+    "street": "123 Main St",
+    "city": "New York"
+  },
+  "tags": ["developer", "mongodb"]
+}
 
-********WE CREATED ROUTES ****
-We craeted auth routes for authentication, user routes for users, and subscription routes.
+2. Collections
+Collections are groups of documents. You can think of them like tables in relational databases, but they do not enforce a schema.
+A collection can store documents with different structures (fields) since MongoDB is schema-less.
 
-explaining auth route
-Router(): This creates a new instance of the router object. A router allows you to define HTTP request methods (like GET, POST, PUT, DELETE) for specific routes.
+3. Databases
+A database in MongoDB is a container for collections. Each MongoDB instance can have multiple databases.
+A database is typically used for organizing related collections.
 
-authRouter: This variable holds the router instance that will be used to define authentication-related routes for signing up, signing in, and logging out.
+5. _id Field
+Each document in MongoDB has a special field called _id that uniquely identifies it.
+If you don’t specify an _id, MongoDB automatically generates one, which is an ObjectId (a 12-byte identifier).
 
-Defining the Routes:
-authRouter.post('/sign-up', handler): This defines a POST route for the /sign-up path.
+6. CRUD Operations
+MongoDB provides the standard Create, Read, Update, and Delete (CRUD) operations for manipulating data:
+Create: Insert new documents into a collection.
+Read: Query documents from a collection (e.g., find()).
+Update: Modify existing documents (e.g., updateOne()).
+Delete: Remove documents from a collection (e.g., deleteOne()).
 
-POST: This is the HTTP method used to submit data (e.g., when a user fills out a registration form).
+Key Benefits:
+Flexible Schema: No need to predefine a schema, allowing fast and iterative development.
 
-Path /sign-up: This is the route that users will access when they try to sign up for your application.
+Scalability: Horizontal scaling via sharding, making it suitable for large applications.
 
-Handler function: The callback function receives the req (request) and res (response) objects.
+Performance: Indexing, in-memory storage, and other optimizations improve query speed.
 
-res.status(201): The status code 201 means "Created", indicating that the user has been successfully created in the system.
-
-res.send(): The response will send a JSON object confirming the success of the operation. In this case, { title: 'User signed up successfully' }.
-
-
-************USING YOUR ROUTES IN APP.JS***
-Usage in Main App (e.g., app.js or server.js):
-To use this authRouter in your Express application, you would import it and attach it to your main application 
-
-STEP 2: // Use the authRouter for authentication routes
-app.use('/auth', authRouter);
-
-app.use('/auth', authRouter): This tells the application to use the authRouter for any requests that start with /auth. For example:
-
-POST /auth/sign-up
-
-POST /auth/sign-in
-
-GET /auth/logout
-
-Summary of Routes:
-POST /auth/sign-up: Used for user registration.
-
-POST /auth/sign-in: Used for user login.
-
-GET /auth/logout: Used for logging the user out.
-
-Each route corresponds to an HTTP request type (POST or GET) and a specific action (sign up, sign in, or log out). When the user hits any of these routes, they will get a response indicating the result of their action.
+MongoDB is widely used in modern web development due to its ability to handle large amounts of unstructured or semi-structured data and its scalability features.
 
 
-CALL TO ACTION: 
-make sure you project is running in terminal.... it should running on http://localhost:3000, append your routes to it, just like this http://localhost:3000/api/v1/subscriptions and see the content display in json format. you can do for users and auths. 
-
-ButTo test your routes properly there are tools you can use, such as postman, insomnia, httpie, bruno. 
-
-(you can introduce one of the tools to your student)
-we will use insomnia. i have already done for auth we will test for subscription and users routes.
+PRACTICAL STEPS: 
+1.GO TO MONGODB ATLAS AND CREATE AND ACCOUNT THEN LOGIN.
+2.WHEN YOU LOGIN YOU CREATE A NEW PROJECT WITH YOUR PROJECT NAME CLICK ON NEXT.
+3.MAKE SURE YOU ARE THE PROJECT OWNER AND CLICK ON CREATE PROJECT.
+4. CREATE YOUR DATABASE CLUSTER AND CHOOSE FREE VERSION AND CLICK ON CREATE DEPLOYMENT.
+5.CHOOSE YOUR USERNAME AND PASSWORD MAKE SURE YOU ARE ABLE TO REMEMEBER YOUR PASSWORD BECAUSE WE WILL USE IT IN OUR PROJECT ENVIRONMENT, PLEASE DONT USE A SPECIAL CASE. CLICK CREATE
+6. CLICK NEXT.
+7.CHOOSE A CONNECTION METHOD WE WILL USE DRIVER, SO CLICK THE FIRST OPTION.
+8. COPY THE INSTALLATION COMMAND NPM I MONGODB AND GO TO YOUR TERMINAL TO INSTALL MONGOBD ALSO INSTALL MONGOOSE. YOU CAN DO THE TWO TOGETHER WITH NPM I MONGODB MONGOOSE.
+9.GO BACK TO MONGODB DASHBOARD AND COPY YOUR CONNECTION STRING 
+10. BACK TO OUR CODE AT .ENV.DEVELOPEMENT.LOCAL FILE AND WE ADD NEW ENV VARIABLE FOR OUR DATABASE WITHTHE CONNECTION STRING WE COPIED SAVE AS MONGODB_URI.
+11. REPLACE PASSWORD HARDCODE WITH YOUR REAL PASSWORD.
+12. IN CONFIG ENV.JS FILE WE EXPORTED DB_URI
+13. THEN WE CREATED A NEW DATABASE FOLDER AND CREATED A NEW FILE MONGODB.JS THERE WE IMPORTED MONGOOSE AND ALSO IMPORT THE ENVIRONMENT VARIABLE WE NEED WHICH IS DB_URI AAND NODE_ENV.
+14. THEN WE DECLARE A FUNCTION TO CONNECT TO DATABASE. AND EXPORT THE FUNCTION.
+15. THEN WE HEAD OVER TO APP.JS  AND CALL THE FUNCTION CONNECTTODATABASE AND MAKE SURE IT IS IMPORTED.
+16, YOU CAN DOWNLOAD mongodbcompass software and handle your database from there.

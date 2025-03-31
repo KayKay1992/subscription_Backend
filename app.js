@@ -6,6 +6,8 @@ import { PORT, NODE_ENV } from './config/env.js';
 import userRouter from './Routes/user.routes.js';
 import subscriptionRuter from './Routes/subscription.routes.js';
 import authRouter from './Routes/auth.routes.js';
+import connectToDatabase from './database/mongodb.js';
+
 
 
 
@@ -24,9 +26,12 @@ app.get('/', (req, res) => {
 })
 
 // Start the server
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
     console.log(`Subscription tracker Api is running on http://localhost:${PORT} in ${NODE_ENV} mode`)
 })
+
+//connect to database
+await connectToDatabase()
 
 
 // Export the Express app for use in other files
