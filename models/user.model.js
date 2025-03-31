@@ -1,8 +1,8 @@
-import mongooose from "mongooose";
+import mongoose from "mongoose";
 
 //create a userSchema object
 
-const userSchema = new mongooose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Username required"],
@@ -29,7 +29,6 @@ const userSchema = new mongooose.Schema({
   { timestamps: true });
 
   //create a User model using userSchema
-  const User = mongooose.model("User", userSchema);
+  const User = mongoose.model("User", userSchema);
   export default User;
 
-  
