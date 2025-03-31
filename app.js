@@ -23,7 +23,7 @@ app.use(express.json());
 //this helps us to process form data.
 app.use(express.urlencoded({ extended: false }));
 //cookieparser: it reads cookies from incoming request so app can store user data.
-app.use(cookie-cookieParser());
+app.use(cookieParser());
 
 //put the routes to use.
 app.use('/api/v1/users', userRouter);
