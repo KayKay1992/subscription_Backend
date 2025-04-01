@@ -1,15 +1,15 @@
 import { Router } from "express";
+import {getUser, getAllUsers} from "../controllers/user.controller.js"
+import { authorize } from "../middleware/auth.middleware.js";
+
 
 const userRouter = Router();
 
 // Define the API endpoints
-userRouter.get('/', (req, res )=>res.send({
-    title: 'GET all users'
-}))
+userRouter.get('/', authorize,  getAllUsers)
 //get a single user
-userRouter.get('/:id', (req, res )=>res.send({
-    title: `GET user details`
-}))
+userRouter.get('/:id', authorize, getUser)
+
 
 //add a new user
 
