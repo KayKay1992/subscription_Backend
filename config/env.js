@@ -20,5 +20,7 @@ export const {
   NODE_ENV = 'development',
   DB_URI, // No fallback - must be in .env file
   JWT_SECRET, // Only for development
-  JWT_EXPIRES_IN = '3d' 
+  JWT_EXPIRES_IN = '3d' ,
+  ARCJET_ENV,
+  ARCJET_KEY
 } = process.env;

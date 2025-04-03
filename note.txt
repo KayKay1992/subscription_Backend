@@ -1,47 +1,25 @@
-Authorisation
+implementing rate limiting using arcjet
 
-In the context of Express.js, authorization is the process of determining whether a user has permission to access a specific resource or perform a certain action after they have been authenticated.
-
-Authentication is about verifying who the user is, while authorization is about verifying what the user is allowed to do.
-
-1. Authentication First
-Before we get to authorization, authentication must occur. This step verifies who the user is, usually by checking a JWT token (JSON Web Token), session, or OAuth token.
-
-b Role-Based Authorization
-Authorization often involves checking the user’s role or permissions to decide if they can access a certain resource or route. You can create a middleware function to check roles.
-For example, if you have two roles: admin and user, and only admin users should have access to certain routes:
-
-Key Steps in the Example:
-authenticateJWT: Verifies if the user has a valid JWT token.
-authorizeAdmin: Ensures that the user is an admin (authorization check based on user role).
-Routes: /admin-only requires both authentication and authorization (admin role), while /user-dashboard only requires authentication.
-
-Conclusion
-In Express.js:
-
-Authentication verifies the identity of the user (e.g., via JWT).
-Authorization ensures that authenticated users can access specific resources based on roles or permissions.
-This process helps protect your application and ensures that only authorized users can perform certain actions or access certain parts of your application.
-
-*********************************************************
-
-we created an authmiddleware file this is where we we wrote our authorization middlewre function.
-
-what is middleware?
-In the context of web development or software engineering, middleware typically refers to functions that process requests and responses between the client (e.g., a web browser) and the server (e.g., a web application). Middleware can be used to manage tasks such as:
-
-Authentication and Authorization: Verifying if a user is authenticated or if they have the proper permissions to access certain resources.
-
-Logging: Tracking requests or errors for debugging or monitoring purposes.
-Data Processing: Modifying or transforming data before it is sent to the client or after it is received from the client.
-Error Handling: Catching and managing errors to prevent the application from crashing.
+Implementing rate limiting using ArcJet involves managing the number of requests made to a service, ensuring they don't exceed a defined threshold in a given time period. Rate limiting is a useful technique to prevent abuse, optimize performance, and control resource consumption.
 
 
-****************************************************
+********************************************************
+SETTING UP ARCJET.
 
-call to action
+Go to arcjet website and sign up you will see your arcjet key.
+Create a project name.
+copy the arcjet key and register it in the .env.development.local file
+Install your arcjet sdk first choose a framework.
+in your taminal run  this command npm i @arcjet/node.
+Set up an active instance for arcjet in config folder so we created a file arcjet.js
+Add some rules: We added those rules in a middlewaare arcjet file.
+then we put to use the arcjetmiddleware in the app.js file.
+in our route.js we use the arcjetmiddleware in the route we are trying to protect.
 
-in Insomnia after creating the controller for users we tried getting users before sign in, it wont work, then we signed in and then try getting all users details but it worked. 
+***************************************************
+CALL TO ACTION 
 
-second part:
-we created middlewaare authorisation function and pass it to our routes we want to authorise, then we go back to insomia try getting all users now it wont work because we didnt provided token, so we copied the token from the previous login and paste it in the auth where token was provided at insomnia.  Now you will see it work.
+We go to insomnia for instance we can test with get all users or get a user. try clicking many times so fast you will get an error too many request try again next time.
+
+this will protect your site from bot attack and enemies that want to crash your site.
+

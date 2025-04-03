@@ -1,14 +1,15 @@
 import { Router } from "express";
 import {getUser, getAllUsers} from "../controllers/user.controller.js"
 import { authorize } from "../middleware/auth.middleware.js";
+import arcjetMiddleware from "../middleware/arcjet.middleware.js";
 
 
 const userRouter = Router();
 
 // Define the API endpoints
-userRouter.get('/', authorize,  getAllUsers)
+userRouter.get('/', authorize, arcjetMiddleware, getAllUsers)
 //get a single user
-userRouter.get('/:id', authorize, getUser)
+userRouter.get('/:id', authorize, arcjetMiddleware, getUser)
 
 
 //add a new user
