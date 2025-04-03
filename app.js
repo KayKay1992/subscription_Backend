@@ -9,6 +9,7 @@ import authRouter from './Routes/auth.routes.js';
 import connectToDatabase from './database/mongodb.js';
 import errorMiddleware from './middleware/error.middleware.js';
 import cookieParser from 'cookie-parser';
+import arcjetMiddleware from './middleware/arcjet.middleware.js';
 
 
 
@@ -24,6 +25,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //cookieparser: it reads cookies from incoming request so app can store user data.
 app.use(cookieParser());
+//put to use arcjet middleware.
+app.use(arcjetMiddleware)
+
 
 //put the routes to use.
 app.use('/api/v1/users', userRouter);
