@@ -1,9 +1,24 @@
-Creating And Tracking the subscription controllers
-1. we created a controller file to handle all controllers of subscription like subscribe cancel renew etc. 
+WORKFLOW REMINDER
 
-now we have a controller for creating subscription and getting a user subscriptions 
+We want to schedule a lot of email reminders before our users hit that subscription deadlines giving them more time to think about whether they want to cancel subscription or keep it going.
+To do this we will use upstash. 
 
-*****************************************
-Call to action we tested it with insomnia 
+Steps:
+1. sign up and login to upstash and navigate to workflow.
+2. Copy the Qstash url, Qstash_token and sign in keys to your environment variables and use them in env.js file.
+3. Now we can install upstash client for express
+  a. install it by running npm install @upstash/workflow
+  b. so in config folder we will create an upstash file.
+  c. We created a new route for workflow in route folder.
+  d. we utilise this route in app.js file, make sure it is imported.
+  c. In controller folder create a controller file for workflow.
+  e. then in sunscription controller we trigger the workflow.
+  f. to test your workflow open another terminal and run npx @upstash/qstash-cli dev  and install it they will give you QSTASH_TOKEN dont include SIGNING_KEYS, copy them and add them to your .env.developement.local file. 
+  g. move the former QSTASH_TOKEN, Qstash_URL, SIGNING_KEYS to your .env.production.local file.
+  h. in sample curl request in your terminal upstash provided a sample url copy from http to 8080 and use it in your .env.developement.local file as Qstash_URL.
+  i. in your workflow route pass the sendReminders function and make sure you imported it.
+  j. I had some errors concerning http i have to remove process.env in both port and server-url in my .env.developement.local file.
 
-you can go ahead and implement the rest.
+  ***********************************************
+
+  call to action go to insomnia and create a subscription you will see the workflowrun id then you will know its triggered successfully.

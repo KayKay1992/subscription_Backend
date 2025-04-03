@@ -4,6 +4,7 @@ import { authorize } from "../middleware/auth.middleware.js";
 import arcjetMiddleware from "../middleware/arcjet.middleware.js";
 
 
+
 const userRouter = Router();
 
 // Define the API endpoints
