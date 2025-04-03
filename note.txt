@@ -1,25 +1,9 @@
-implementing rate limiting using arcjet
+Creating And Tracking the subscription controllers
+1. we created a controller file to handle all controllers of subscription like subscribe cancel renew etc. 
 
-Implementing rate limiting using ArcJet involves managing the number of requests made to a service, ensuring they don't exceed a defined threshold in a given time period. Rate limiting is a useful technique to prevent abuse, optimize performance, and control resource consumption.
+now we have a controller for creating subscription and getting a user subscriptions 
 
+*****************************************
+Call to action we tested it with insomnia 
 
-********************************************************
-SETTING UP ARCJET.
-
-Go to arcjet website and sign up you will see your arcjet key.
-Create a project name.
-copy the arcjet key and register it in the .env.development.local file
-Install your arcjet sdk first choose a framework.
-in your taminal run  this command npm i @arcjet/node.
-Set up an active instance for arcjet in config folder so we created a file arcjet.js
-Add some rules: We added those rules in a middlewaare arcjet file.
-then we put to use the arcjetmiddleware in the app.js file.
-in our route.js we use the arcjetmiddleware in the route we are trying to protect.
-
-***************************************************
-CALL TO ACTION 
-
-We go to insomnia for instance we can test with get all users or get a user. try clicking many times so fast you will get an error too many request try again next time.
-
-this will protect your site from bot attack and enemies that want to crash your site.
-
+you can go ahead and implement the rest.
